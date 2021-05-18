@@ -5,7 +5,7 @@ class CreateQuestions < ActiveRecord::Migration[6.1]
     create_table :questions do |t|
       t.string :title
       t.text :body
-      t.string :answer
+      t.integer :answer_id
       t.float :payment
 
       t.timestamps

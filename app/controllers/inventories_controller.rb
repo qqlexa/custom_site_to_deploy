@@ -20,13 +20,15 @@ class InventoriesController < ApplicationController
   end
 
   def buy
-    @item = Item.find(params[:id])
+    ActiveRecord::Base.transaction do
+      @item = Item.find(params[:id])
 
-    if (current_user.balance - @item.price).positive?
-      create
-      @alert = 'You bought'
-    else
-      @alert = 'You have not balance to buy this'
+      if (current_user.balance - @item.price).positive?
+        create
+        @alert = 'You bought'
+      else
+        @alert = 'You have not balance to buy this'
+      end
     end
   end
 
