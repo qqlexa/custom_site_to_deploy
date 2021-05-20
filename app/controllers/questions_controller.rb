@@ -13,8 +13,9 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    @answer = Answer.find_or_create_by(answer: params[:answer])
+    @answer = Answer.find_or_create_by(answer_param)
     @question = Question.find(params[:id])
+    byebug
     @question.update(question_params.to_h.merge({ answer_id: @answer.id }))
     @question.save
     redirect_to question_path
@@ -22,6 +23,8 @@ class QuestionsController < ApplicationController
 
   def edit
     @question = Question.find(params[:id])
+    @answer = Answer.find(@question.answer_id).answer
+    byebug
   end
 
   def search
@@ -57,6 +60,14 @@ class QuestionsController < ApplicationController
   end
 
   private
+
+  def answer_param
+    if params[:title].nil?
+      params.require(:question).permit(:answer)
+    else
+      params.permit(:answer)
+    end
+  end
 
   def question_params
     if params[:title].nil?
