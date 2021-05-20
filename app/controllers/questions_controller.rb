@@ -15,7 +15,6 @@ class QuestionsController < ApplicationController
   def update
     @answer = Answer.find_or_create_by(answer_param)
     @question = Question.find(params[:id])
-    byebug
     @question.update(question_params.to_h.merge({ answer_id: @answer.id }))
     @question.save
     redirect_to question_path
@@ -24,7 +23,6 @@ class QuestionsController < ApplicationController
   def edit
     @question = Question.find(params[:id])
     @answer = Answer.find(@question.answer_id).answer
-    byebug
   end
 
   def search
